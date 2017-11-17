@@ -1,8 +1,8 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.controllers;
+package com.omniesoft.commerce.imagestorage.controllers;
 
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto.Image;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageStorageService;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageType;
+import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
+import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;

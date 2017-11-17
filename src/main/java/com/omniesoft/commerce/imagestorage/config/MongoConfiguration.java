@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.config;
+package com.omniesoft.commerce.imagestorage.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

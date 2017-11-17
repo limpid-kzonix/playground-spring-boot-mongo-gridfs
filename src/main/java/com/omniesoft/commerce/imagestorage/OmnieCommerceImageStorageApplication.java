@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage;
+package com.omniesoft.commerce.imagestorage;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @EnableMongoRepositories
 @SpringBootApplication
-public class OmnieCommerceImagestorageApplication {
+public class OmnieCommerceImageStorageApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(OmnieCommerceImagestorageApplication.class, args);
+		SpringApplication.run(OmnieCommerceImageStorageApplication.class, args);
 	}
 }

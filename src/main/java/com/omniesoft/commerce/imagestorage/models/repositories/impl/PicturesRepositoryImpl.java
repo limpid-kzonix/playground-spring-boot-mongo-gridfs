@@ -1,11 +1,11 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.repositories.impl;
+package com.omniesoft.commerce.imagestorage.models.repositories.impl;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import com.omniesoft.commerce.common.handler.exception.custom.ResourceNotFoundException;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto.Image;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.repositories.PicturesRepository;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageType;
+import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
+import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.query.Criteria;

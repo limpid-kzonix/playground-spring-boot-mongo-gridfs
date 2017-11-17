@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services;
+package com.omniesoft.commerce.imagestorage.models.services;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;

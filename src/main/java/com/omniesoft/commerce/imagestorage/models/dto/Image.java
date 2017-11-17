@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto;
+package com.omniesoft.commerce.imagestorage.models.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.repositories;
+package com.omniesoft.commerce.imagestorage.models.repositories;
 
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto.Image;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageType;
+import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 
 import java.io.IOException;
 import java.io.InputStream;

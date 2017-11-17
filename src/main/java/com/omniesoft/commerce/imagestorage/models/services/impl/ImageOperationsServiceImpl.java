@@ -1,6 +1,6 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.impl;
+package com.omniesoft.commerce.imagestorage.models.services.impl;
 
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageOperationsService;
+import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,10 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.impl;
+package com.omniesoft.commerce.imagestorage.models.services.impl;
 
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto.Image;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.repositories.PicturesRepository;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageOperationsService;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageStorageService;
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services.ImageType;
+import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
+import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
+import com.omniesoft.commerce.imagestorage.models.services.ImageType;
+import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.scheduling.annotation.Async;

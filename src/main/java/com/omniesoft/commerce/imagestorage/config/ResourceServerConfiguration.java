@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.config;
+package com.omniesoft.commerce.imagestorage.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

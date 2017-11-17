@@ -1,6 +1,6 @@
-package com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.services;
+package com.omniesoft.commerce.imagestorage.models.services;
 
-import com.omniesoft.commerce.imagestorage.omniecommerceimagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.dto.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
