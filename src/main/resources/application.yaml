@@ -64,13 +64,7 @@ security:
 #
 # [ Logging Configuration Attributes ]
 #
-#log4jdbc:
-#  trim:
-#    sql: false
-#  dump:
-#    sql:
-#      maxlinelength: 90
-#      select: true
+
 logging:
   level:
 #    root: info
@@ -86,4 +80,37 @@ logging:
     jdbc.resultset: warn
     jdbc.sqltiming: warn
 
+---
+###
+### Profile: dev
+###
+spring:
+    profiles: dev
+    data:
+      mongodb:
+       port: 27017
+       host: 192.168.65.1
+
+#
+# [ Security Configuration Attributes ]
+#
+security:
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+      accessTokenUri: http://192.168.65.1:9005/omnie-security/oauth/check_token
+      userAuthorizationUri: http://192.168.65.1:9005/omnie-security/oauth/authorize
+    resource:
+      filter-order: 3
+      jwt:
+        keyUri: http://192.168.65.1:9005/omnie-security/oauth/token_key
+
+
+#
+# [ Logging Configuration Attributes ]
+#
+
+logging:
+  config: classpath:logger-to-file.xml
 

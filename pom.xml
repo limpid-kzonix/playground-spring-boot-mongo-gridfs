@@ -59,12 +59,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- Loggers -->
-        <dependency>
-            <groupId>com.integralblue</groupId>
-            <artifactId>log4jdbc-spring-boot-starter</artifactId>
-            <version>${log4jdbc-spring-boot-starter.version}</version>
-        </dependency>
         <!--Marshalling/Unmarshalling-->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -173,6 +167,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>omniecom-imagestorage</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -191,8 +186,6 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
-
 
 </project>
