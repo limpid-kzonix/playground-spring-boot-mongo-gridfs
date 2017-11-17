@@ -1,0 +1,89 @@
+
+
+#
+# [ Server Configuration Attributes ]
+#
+server:
+ port: 9011
+ contextPath: /api/image
+
+#
+# [ Spring Database Configuration]
+#
+spring:
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  output:
+    ansi:
+      enabled: always
+  data:
+    mongodb:
+      port: 27017
+      host: localhost
+      repositories:
+        enabled: true
+      reactive-repositories:
+        enabled: true
+      database: omnie-image-storage
+      grid-fs-database: omnie-fs
+
+#
+# [ Spring Email Configuration]
+#
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: omniehp2@gmail.com
+    password: omniuser2hp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+#
+# [ Security Configuration Attributes ]
+#
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+      accessTokenUri: http://localhost:9005/omnie-security/oauth/check_token
+      userAuthorizationUri: http://localhost:9005/omnie-security/oauth/authorize
+    resource:
+      filter-order: 3
+      jwt:
+        keyUri: http://localhost:9005/omnie-security/oauth/token_key
+
+#
+# [ Logging Configuration Attributes ]
+#
+#log4jdbc:
+#  trim:
+#    sql: false
+#  dump:
+#    sql:
+#      maxlinelength: 90
+#      select: true
+logging:
+  level:
+#    root: info
+    com.omniesoft: debug
+    org.springframework: info
+    org.springframework.security: debug
+    org.springframework.cache: debug
+    org.hibernate: info
+    jdbc: info
+    org.apache: info
+    jdbc.audit: warn
+    jdbc.sqlonly: warn
+    jdbc.resultset: warn
+    jdbc.sqltiming: warn
+
+
