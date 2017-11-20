@@ -89,7 +89,7 @@ spring:
     data:
       mongodb:
        port: 27017
-       host: 192.168.65.1
+       host: mongodb
 
 #
 # [ Security Configuration Attributes ]
@@ -99,12 +99,12 @@ security:
     client:
       clientId: web-client
       clientSecret: secret
-      accessTokenUri: http://192.168.65.1:9005/omnie-security/oauth/check_token
-      userAuthorizationUri: http://192.168.65.1:9005/omnie-security/oauth/authorize
+      accessTokenUri: http://omnie-security:9005/omnie-security/oauth/check_token
+      userAuthorizationUri: http://omnie-security:9005/omnie-security/oauth/authorize
     resource:
       filter-order: 3
       jwt:
-        keyUri: http://192.168.65.1:9005/omnie-security/oauth/token_key
+        keyUri: http://omnie-security:9005/omnie-security/oauth/token_key
 
 
 #
