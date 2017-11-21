@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.imagestorage.models.services.impl;
 
+import com.omniesoft.commerce.common.handler.exception.custom.ImageProcessingException;
 import com.omniesoft.commerce.imagestorage.models.dto.Image;
 import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
@@ -38,19 +39,27 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
 	}
 
-	@Async(value = "mongoExecutionWritableContext")
-	public CompletableFuture<Void> prepareAndSave(MultipartFile file, BufferedImage read, String generated) throws
-			IOException
-	{
 
-		return CompletableFuture.runAsync(() -> {
+	public CompletableFuture<Void> prepareAndSave(MultipartFile file, BufferedImage read, String generated)
+	{
+		CompletableFuture.runAsync(() -> {
+			writeOriginal(file, read, generated);
+		});
+		CompletableFuture.runAsync(() -> {
 			writeLarge(file, read, generated);
+		});
+		CompletableFuture.runAsync(() -> {
 			writeSmall(file, read, generated);
+		});
+		return CompletableFuture.runAsync(() -> {
+
 			writeMedium(file, read, generated);
+
 		});
 	}
 
-	private void writeMedium(MultipartFile file, BufferedImage read, String generated) {
+	@Async(value = "mongoExecutionWritableContext")
+	void writeMedium(MultipartFile file, BufferedImage read, String generated) {
 
 		CompletableFuture.runAsync(() -> {
 			try {
@@ -58,13 +67,14 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 						.storeSource(imageOperationsService.prepareMedium(read), generated, file
 								.getContentType(), ImageType.MEDIUM);
 			} catch (IOException e) {
-				throw new RuntimeException();
+				throw new ImageProcessingException();
 			}
 		});
 
 	}
 
-	private void writeSmall(MultipartFile file, BufferedImage read, String generated) {
+	@Async(value = "mongoExecutionWritableContext")
+	void writeSmall(MultipartFile file, BufferedImage read, String generated) {
 
 		CompletableFuture.runAsync(() -> {
 			try {
@@ -72,19 +82,33 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 						.storeSource(imageOperationsService.prepareSmall(read), generated, file
 								.getContentType(), ImageType.SMALL);
 			} catch (IOException e) {
-				throw new RuntimeException();
+				throw new ImageProcessingException();
 			}
 		});
 
 	}
-
-	private void writeLarge(MultipartFile file, BufferedImage read, String generated) {
+	@Async(value = "mongoExecutionWritableContext")
+	void writeLarge(MultipartFile file, BufferedImage read, String generated) {
 
 		CompletableFuture.runAsync(() -> {
 			try {
 				picturesRepository
 						.storeSource(imageOperationsService.prepareLarge(read), generated, file
 								.getContentType(), ImageType.LARGE);
+			} catch (IOException e) {
+				throw new ImageProcessingException();
+			}
+		});
+
+	}
+	@Async(value = "mongoExecutionWritableContext")
+	void writeOriginal(MultipartFile file, BufferedImage read, String generated) {
+
+		CompletableFuture.runAsync(() -> {
+			try {
+				picturesRepository
+						.storeSource(imageOperationsService.prepareOriginal(read), generated, file
+								.getContentType(), ImageType.ORIGINAL);
 			} catch (IOException e) {
 				throw new RuntimeException();
 			}

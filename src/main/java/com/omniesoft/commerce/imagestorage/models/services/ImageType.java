@@ -4,5 +4,5 @@ public enum ImageType {
 	SMALL,
 	MEDIUM,
 	LARGE,
-	ORGINAL
+	ORIGINAL
 }

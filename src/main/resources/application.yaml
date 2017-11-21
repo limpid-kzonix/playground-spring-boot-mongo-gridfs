@@ -7,6 +7,9 @@ server:
  port: 9011
  contextPath: /api/image
 
+
+
+
 #
 # [ Spring Database Configuration]
 #
@@ -26,6 +29,10 @@ spring:
         enabled: true
       database: omnie-image-storage
       grid-fs-database: omnie-fs
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 #
 # [ Spring Email Configuration]

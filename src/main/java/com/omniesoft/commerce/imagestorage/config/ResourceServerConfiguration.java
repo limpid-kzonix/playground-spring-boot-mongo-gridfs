@@ -45,7 +45,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 						"/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
 						"/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html",
 						"/swagger-resources/configuration/security",
-						"/server/index**"
+						"/fetch**"
 				).permitAll()
 				.and()
 				.authorizeRequests()

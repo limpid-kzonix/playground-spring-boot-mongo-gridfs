@@ -35,7 +35,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
 				.find(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
 				                        .is(type.name())));
 		if (files.isEmpty()) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException("Image with identifier: " + picturesIdentifier);
 		}
 		GridFSDBFile gridFSDBFile = files.get(0);
 		return new Image(gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
@@ -46,7 +46,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
 			throws IOException
 	{
 
-		log.info("ORIGINAL FILE NAME : {}", originalFileName);
+		log.info("ORIGINAL FILE NAME (image-identifier): {}", originalFileName);
 
 
 		Map<String, Object> metaData = metaData(originalFileName, type);

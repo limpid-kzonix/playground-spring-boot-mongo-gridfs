@@ -12,5 +12,7 @@ public interface ImageOperationsService {
 
 	InputStream prepareLarge(BufferedImage originalImage) throws IOException;
 
+	InputStream prepareOriginal(BufferedImage originalImage) throws IOException;
+
 
 }
