@@ -106,7 +106,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
 		// Configure JPEG compression: 12% quality
 		ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
 		jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-		jpgWriteParam.setCompressionQuality(0.3f);
+		jpgWriteParam.setCompressionQuality(0.1f);
 
 		// Set your in-memory stream as the output
 		jpgWriter.setOutput(outputStream);
