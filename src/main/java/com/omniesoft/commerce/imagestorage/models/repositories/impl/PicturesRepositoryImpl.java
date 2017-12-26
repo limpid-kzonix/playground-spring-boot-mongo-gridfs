@@ -2,7 +2,8 @@ package com.omniesoft.commerce.imagestorage.models.repositories.impl;
 
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
-import com.omniesoft.commerce.common.handler.exception.custom.ResourceNotFoundException;
+import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.imagestorage.models.dto.Image;
 import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
@@ -35,7 +36,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
 				.find(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
 				                        .is(type.name())));
 		if (files.isEmpty()) {
-			throw new ResourceNotFoundException("Image with identifier: " + picturesIdentifier);
+			throw new UsefulException("Image with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
 		}
 		GridFSDBFile gridFSDBFile = files.get(0);
 		return new Image(gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
