@@ -10,8 +10,8 @@ import java.io.InputStream;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Image {
-	private InputStream stream;
-	private String contentType;
+    private InputStream stream;
+    private String contentType;
 
 
 }

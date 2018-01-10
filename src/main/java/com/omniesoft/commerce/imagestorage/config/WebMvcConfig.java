@@ -21,48 +21,49 @@ import java.util.concurrent.Executor;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-	@Override
-	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 
-		List<MediaType> supportedMediaTypes = new ArrayList<>();
-		supportedMediaTypes.add(MediaType.APPLICATION_JSON);
-		supportedMediaTypes.add(MediaType.TEXT_PLAIN);
-		for (HttpMessageConverter<?> converter : converters) {
-			if (converter.getClass().equals(MappingJackson2HttpMessageConverter.class)) {
-				((MappingJackson2HttpMessageConverter) converter).getObjectMapper()
-				                                                 .registerModule(new Hibernate5Module());
-			}
-		}
-		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		objectMapper.registerModule(new Hibernate5Module());
-		objectMapper.registerModule(new JavaTimeModule());
+        List<MediaType> supportedMediaTypes = new ArrayList<>();
+        supportedMediaTypes.add(MediaType.APPLICATION_JSON);
+        supportedMediaTypes.add(MediaType.TEXT_PLAIN);
+        for (HttpMessageConverter<?> converter : converters) {
+            if (converter.getClass().equals(MappingJackson2HttpMessageConverter.class)) {
+                ((MappingJackson2HttpMessageConverter) converter).getObjectMapper()
+                        .registerModule(new Hibernate5Module());
+            }
+        }
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.registerModule(new Hibernate5Module());
+        objectMapper.registerModule(new JavaTimeModule());
 
-		converter.setObjectMapper(objectMapper);
-		converter.setPrettyPrint(true);
-		converter.setSupportedMediaTypes(supportedMediaTypes);
-		converters.add(converter);
+        converter.setObjectMapper(objectMapper);
+        converter.setPrettyPrint(true);
+        converter.setSupportedMediaTypes(supportedMediaTypes);
+        converters.add(converter);
 
-		super.extendMessageConverters(converters);
-	}
+        super.extendMessageConverters(converters);
+    }
 
-	@Bean RandomStringGenerator randomStringGenerator() {
-		return  new RandomStringGenerator.Builder()
-				.withinRange('0', 'z')
-				.filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS )
-				.build();
-	}
+    @Bean
+    RandomStringGenerator randomStringGenerator() {
+        return new RandomStringGenerator.Builder()
+                .withinRange('0', 'z')
+                .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
+                .build();
+    }
 
-	@Bean(name = "mongoExecutionWritableContext")
-	public Executor httpThreadPoolExecutor() {
+    @Bean(name = "mongoExecutionWritableContext")
+    public Executor httpThreadPoolExecutor() {
 
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(16);
-		executor.setMaxPoolSize(16*2);
-		executor.setQueueCapacity(750);
-		executor.setThreadNamePrefix("MongoWriter-ThreadPool-");
-		executor.initialize();
-		return executor;
-	}
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(16);
+        executor.setMaxPoolSize(16 * 2);
+        executor.setQueueCapacity(750);
+        executor.setThreadNamePrefix("MongoWriter-ThreadPool-");
+        executor.initialize();
+        return executor;
+    }
 }

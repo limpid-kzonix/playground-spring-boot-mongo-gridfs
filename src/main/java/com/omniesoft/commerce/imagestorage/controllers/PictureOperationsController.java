@@ -17,40 +17,39 @@ import java.io.IOException;
 @AllArgsConstructor
 public class PictureOperationsController {
 
-	private ImageStorageService service;
+    private ImageStorageService service;
 
-	@PostMapping(path = "/upload")
-	@ResponseStatus(HttpStatus.CREATED)
-	public String uploadImage(@RequestParam("file") MultipartFile file) {
+    @PostMapping(path = "/upload")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String uploadImage(@RequestParam("file") MultipartFile file) {
 
-		try {
-			return service.store(file);
-		} catch (IOException e) {
-			throw new RuntimeException();
-		}
+        try {
+            return service.store(file);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
 
-	}
+    }
 
-	@DeleteMapping(path = "/delete")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteImage(@RequestParam("image-identifier") String imageId) {
+    @DeleteMapping(path = "/delete")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteImage(@RequestParam("image-identifier") String imageId) {
 
-		service.delete(imageId);
+        service.delete(imageId);
 
-	}
+    }
 
-	@GetMapping(path = "/fetch")
-	public ResponseEntity<InputStreamResource> fetchImage(@RequestParam("image-identifier") String imageId,
-	                                                      @RequestParam("image-type") ImageType type)
-	{
+    @GetMapping(path = "/fetch")
+    public ResponseEntity<InputStreamResource> fetchImage(@RequestParam("image-identifier") String imageId,
+                                                          @RequestParam("image-type") ImageType type) {
 
-		Image image = service.fetchImageByIdAndType(imageId, type);
+        Image image = service.fetchImageByIdAndType(imageId, type);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.set(HttpHeaders.CONTENT_TYPE, image.getContentType());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, image.getContentType());
 
-		return new ResponseEntity<InputStreamResource>(new InputStreamResource(image.getStream()), headers,
-				HttpStatus.OK);
-	}
+        return new ResponseEntity<InputStreamResource>(new InputStreamResource(image.getStream()), headers,
+                HttpStatus.OK);
+    }
 
 }

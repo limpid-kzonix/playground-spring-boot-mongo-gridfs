@@ -74,7 +74,7 @@ public class SwaggerConfiguration {
     private AlternateTypeRule rules() {
         return newRule(
                 typeResolver.resolve(DeferredResult.class,
-                typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
+                        typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
                 typeResolver.resolve(WildcardType.class));
     }
 
@@ -110,15 +110,15 @@ public class SwaggerConfiguration {
                         .parameterType("header")
                         .required(false)
                         .build(),
-        new ParameterBuilder()
-                .hidden(true)
-                .name("Content-Type")
-                .description("Content type")
-                .defaultValue("application/json")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(false)
-                .build()
+                new ParameterBuilder()
+                        .hidden(true)
+                        .name("Content-Type")
+                        .description("Content type")
+                        .defaultValue("application/json")
+                        .modelRef(new ModelRef("string"))
+                        .parameterType("header")
+                        .required(false)
+                        .build()
         );
     }
 }

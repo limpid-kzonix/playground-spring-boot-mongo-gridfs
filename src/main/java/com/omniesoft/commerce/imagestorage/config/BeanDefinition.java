@@ -9,12 +9,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Configuration
 public class BeanDefinition {
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	@Bean
-	public ResponseEntityExceptionHandler entityExceptionHandler() {
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    @Bean
+    public ResponseEntityExceptionHandler entityExceptionHandler() {
 
-		return new RestResponseEntityExceptionHandler();
-	}
+        return new RestResponseEntityExceptionHandler();
+    }
 
 
 }

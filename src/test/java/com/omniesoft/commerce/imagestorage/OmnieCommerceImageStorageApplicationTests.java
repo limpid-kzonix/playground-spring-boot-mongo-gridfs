@@ -18,22 +18,23 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class OmnieCommerceImageStorageApplicationTests {
 
-	@Autowired ImageStorageService imageStorageService;
+    @Autowired
+    ImageStorageService imageStorageService;
 
 
-	@Test
-	public void contextLoads() {
-	}
+    @Test
+    public void contextLoads() {
+    }
 
 
-	@Test
-	public void getImage() {
+    @Test
+    public void getImage() {
 
-		Image image = imageStorageService
-				.fetchImageByIdAndType("4hXMGCw9Iv4jvSZzHySUUvBzT34zQzcvwboGfyUN", ImageType.MEDIUM);
-		log.info(image.getContentType());
-		Assert.assertEquals("image type not compatible","image/png", image.getContentType());
-	}
+        Image image = imageStorageService
+                .fetchImageByIdAndType("4hXMGCw9Iv4jvSZzHySUUvBzT34zQzcvwboGfyUN", ImageType.MEDIUM);
+        log.info(image.getContentType());
+        Assert.assertEquals("image type not compatible", "image/png", image.getContentType());
+    }
 }
 
 

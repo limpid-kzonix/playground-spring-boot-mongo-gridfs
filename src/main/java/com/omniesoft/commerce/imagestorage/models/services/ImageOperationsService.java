@@ -6,13 +6,13 @@ import java.io.InputStream;
 
 public interface ImageOperationsService {
 
-	InputStream prepareSmall(BufferedImage originalImage) throws IOException;
+    InputStream prepareSmall(BufferedImage originalImage) throws IOException;
 
-	InputStream prepareMedium(BufferedImage originalImage) throws IOException;
+    InputStream prepareMedium(BufferedImage originalImage) throws IOException;
 
-	InputStream prepareLarge(BufferedImage originalImage) throws IOException;
+    InputStream prepareLarge(BufferedImage originalImage) throws IOException;
 
-	InputStream prepareOriginal(BufferedImage originalImage) throws IOException;
+    InputStream prepareOriginal(BufferedImage originalImage) throws IOException;
 
 
 }

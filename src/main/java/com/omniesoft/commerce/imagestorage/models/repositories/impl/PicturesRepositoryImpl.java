@@ -26,52 +26,51 @@ import java.util.Map;
 @Component
 public class PicturesRepositoryImpl implements PicturesRepository {
 
-	private GridFsTemplate gridFsTemplate;
+    private GridFsTemplate gridFsTemplate;
 
 
-	@Override
-	public Image fetchPicturesSource(String picturesIdentifier, ImageType type) {
+    @Override
+    public Image fetchPicturesSource(String picturesIdentifier, ImageType type) {
 
-		List<GridFSDBFile> files = gridFsTemplate
-				.find(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
-				                        .is(type.name())));
-		if (files.isEmpty()) {
-			throw new UsefulException("Image with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
-		}
-		GridFSDBFile gridFSDBFile = files.get(0);
-		return new Image(gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
-	}
+        List<GridFSDBFile> files = gridFsTemplate
+                .find(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
+                        .is(type.name())));
+        if (files.isEmpty()) {
+            throw new UsefulException("Image with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
+        }
+        GridFSDBFile gridFSDBFile = files.get(0);
+        return new Image(gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
+    }
 
-	@Override
-	public String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type)
-			throws IOException
-	{
+    @Override
+    public String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type)
+            throws IOException {
 
-		log.info("ORIGINAL FILE NAME (image-identifier): {}", originalFileName);
-
-
-		Map<String, Object> metaData = metaData(originalFileName, type);
-
-		GridFSFile store = gridFsTemplate
-				.store(inputStream, originalFileName, contentType,
-						metaData);
-		return store.getId().toString();
-	}
+        log.info("ORIGINAL FILE NAME (image-identifier): {}", originalFileName);
 
 
-	@Override
-	public void deleteImage(String imageIdentifier) {
-		gridFsTemplate.delete(new Query(Criteria.where("filename").is(imageIdentifier)));
-	}
+        Map<String, Object> metaData = metaData(originalFileName, type);
 
-	/* ---------------------------------------------------------------------------------------------------------------*/
+        GridFSFile store = gridFsTemplate
+                .store(inputStream, originalFileName, contentType,
+                        metaData);
+        return store.getId().toString();
+    }
 
-	private Map<String, Object> metaData(String originalFileName, ImageType type) {
 
-		Map<String, Object> metaData = new HashMap<>();
-		metaData.put("orginalFileName", originalFileName);
-		metaData.put("imageSizeType", type.name());
-		metaData.put("dateTime", LocalDateTime.now());
-		return metaData;
-	}
+    @Override
+    public void deleteImage(String imageIdentifier) {
+        gridFsTemplate.delete(new Query(Criteria.where("filename").is(imageIdentifier)));
+    }
+
+    /* ---------------------------------------------------------------------------------------------------------------*/
+
+    private Map<String, Object> metaData(String originalFileName, ImageType type) {
+
+        Map<String, Object> metaData = new HashMap<>();
+        metaData.put("orginalFileName", originalFileName);
+        metaData.put("imageSizeType", type.name());
+        metaData.put("dateTime", LocalDateTime.now());
+        return metaData;
+    }
 }

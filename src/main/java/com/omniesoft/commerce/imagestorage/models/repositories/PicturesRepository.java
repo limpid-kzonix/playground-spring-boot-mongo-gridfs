@@ -8,10 +8,10 @@ import java.io.InputStream;
 
 public interface PicturesRepository {
 
-	Image fetchPicturesSource(String picturesIdentifier, ImageType type);
+    Image fetchPicturesSource(String picturesIdentifier, ImageType type);
 
-	String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type) throws IOException;
+    String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type) throws IOException;
 
-	void deleteImage(String imageIdentifier);
+    void deleteImage(String imageIdentifier);
 
 }

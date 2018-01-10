@@ -7,9 +7,9 @@ import java.io.IOException;
 
 public interface ImageStorageService {
 
-	String store(MultipartFile file) throws IOException;
+    String store(MultipartFile file) throws IOException;
 
-	Image fetchImageByIdAndType(String imageId, ImageType type);
+    Image fetchImageByIdAndType(String imageId, ImageType type);
 
-	void delete(String imageId);
+    void delete(String imageId);
 }
