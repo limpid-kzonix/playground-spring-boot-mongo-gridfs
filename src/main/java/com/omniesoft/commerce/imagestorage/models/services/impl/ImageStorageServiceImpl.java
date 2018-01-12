@@ -8,6 +8,7 @@ import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsServic
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class ImageStorageServiceImpl implements ImageStorageService {
@@ -112,7 +114,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
     @Override
     public Image fetchImageByIdAndType(String imageId, ImageType type) {
-
+        log.info(" Loading images with image-id {} and image-type {}", imageId, type);
         return picturesRepository.fetchPicturesSource(imageId, type);
     }
 

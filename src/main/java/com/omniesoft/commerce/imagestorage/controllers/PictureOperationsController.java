@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.imagestorage.controllers;
 
+import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.imagestorage.models.dto.Image;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
@@ -21,10 +22,10 @@ public class PictureOperationsController {
 
     @PostMapping(path = "/upload")
     @ResponseStatus(HttpStatus.CREATED)
-    public String uploadImage(@RequestParam("file") MultipartFile file) {
+    public ResponseMessage uploadImage(@RequestParam("file") MultipartFile file) {
 
         try {
-            return service.store(file);
+            return new ResponseMessage(service.store(file));
         } catch (IOException e) {
             throw new RuntimeException();
         }
@@ -48,7 +49,7 @@ public class PictureOperationsController {
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, image.getContentType());
 
-        return new ResponseEntity<InputStreamResource>(new InputStreamResource(image.getStream()), headers,
+        return new ResponseEntity<>(new InputStreamResource(image.getStream()), headers,
                 HttpStatus.OK);
     }
 
