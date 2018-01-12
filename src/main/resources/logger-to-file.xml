@@ -8,6 +8,7 @@
     <property name="LOG_FILE" value="imagestorage-app"/>
     <property name="MAX_FILE_SIZE" value="10MB"/>
     <property name="MAX_HISTORY" value="20"/>
+    <property name="TOTAL_SIZE_CAP" value="500MB"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/${LOG_FILE}.log</file>
@@ -20,6 +21,8 @@
             <fileNamePattern>/log/archive/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
             <maxHistory>${MAX_HISTORY:-0}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-500MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
 
@@ -34,6 +37,8 @@
             <fileNamePattern>/log/archive/debug-${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
             <maxHistory>${MAX_HISTORY:-0}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-500MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
 
