@@ -41,8 +41,8 @@ public class PictureOperationsController {
     }
 
     @GetMapping(path = "/fetch")
-    public ResponseEntity<InputStreamResource> fetchImage(@RequestParam("image-identifier") String imageId,
-                                                          @RequestParam("image-type") ImageType type) {
+    public ResponseEntity<InputStreamResource> fetchImage(@RequestParam("image_identifier") String imageId,
+                                                          @RequestParam("image_type") ImageType type) {
 
         Image image = service.fetchImageByIdAndType(imageId, type);
 
