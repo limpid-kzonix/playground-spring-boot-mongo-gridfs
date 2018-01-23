@@ -7,8 +7,8 @@
 
     <property name="LOG_FILE" value="imagestorage-app"/>
     <property name="MAX_FILE_SIZE" value="10MB"/>
-    <property name="MAX_HISTORY" value="20"/>
-    <property name="TOTAL_SIZE_CAP" value="500MB"/>
+    <property name="MAX_HISTORY" value="2"/>
+    <property name="TOTAL_SIZE_CAP" value="50MB"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/${LOG_FILE}.log</file>
@@ -20,8 +20,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/log/archive/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
-            <maxHistory>${MAX_HISTORY:-0}</maxHistory>
-            <totalSizeCap>${TOTAL_SIZE_CAP:-500MB}</totalSizeCap>
+            <maxHistory>${MAX_HISTORY:-2}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
@@ -36,8 +36,8 @@
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>/log/archive/debug-${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
-            <maxHistory>${MAX_HISTORY:-0}</maxHistory>
-            <totalSizeCap>${TOTAL_SIZE_CAP:-500MB}</totalSizeCap>
+            <maxHistory>${MAX_HISTORY:-2}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
             <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
@@ -46,7 +46,7 @@
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="com.omniesoft" level="INFO" additivity="false">
+    <logger name="com.omniesoft" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
 
@@ -54,15 +54,15 @@
         <appender-ref ref="FILE-DEBUG"/>
     </logger>
 
-    <logger name="org.springframework" level="INFO" additivity="false">
+    <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="org.hibernate" level="INFO" additivity="false">
+    <logger name="org.hibernate" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="org.apache" level="INFO" additivity="false">
+    <logger name="org.apache" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
 
@@ -80,7 +80,6 @@
 
     <logger name="jdbc.resultset" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
-    </logger>
     </logger>
 
 </configuration>
