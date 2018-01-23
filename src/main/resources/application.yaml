@@ -35,6 +35,13 @@ spring:
       max-request-size: 10MB
 
 #
+# [Spring Cache Configuration]
+#
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+
+#
 # [ Spring Email Configuration]
 #
 
@@ -50,6 +57,7 @@ spring:
           starttls:
             enable: true
             required: true
+
 
 #
 # [ Security Configuration Attributes ]

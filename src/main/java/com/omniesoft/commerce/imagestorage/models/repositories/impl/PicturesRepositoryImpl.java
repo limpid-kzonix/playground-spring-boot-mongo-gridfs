@@ -39,7 +39,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
             throw new UsefulException("Image with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
         }
         GridFSDBFile gridFSDBFile = files.get(0);
-        return new Image(gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
+        return new Image(picturesIdentifier, type, gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
     }
 
     @Override

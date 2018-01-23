@@ -10,6 +10,8 @@ import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @Service
 @AllArgsConstructor
+@CacheConfig(cacheNames = "pictures")
 public class ImageStorageServiceImpl implements ImageStorageService {
 
     private PicturesRepository picturesRepository;
@@ -113,6 +116,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Override
+    @Cacheable(value="pictures", key = "{ #root.methodName, #imageId, #type }")
     public Image fetchImageByIdAndType(String imageId, ImageType type) {
         log.info(" Loading images with image-id {} and image-type {}", imageId, type);
         return picturesRepository.fetchPicturesSource(imageId, type);
