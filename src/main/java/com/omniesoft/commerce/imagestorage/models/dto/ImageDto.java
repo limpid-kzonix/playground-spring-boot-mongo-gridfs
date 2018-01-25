@@ -6,26 +6,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.InputStream;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Image {
+public class ImageDto {
     private String pictureIdentifier;
     private ImageType imageType;
-    private InputStream stream;
+    private byte[] stream;
     private String contentType;
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Image)) return false;
+        if (!(o instanceof ImageDto)) return false;
         if (!super.equals(o)) return false;
-        Image image = (Image) o;
-        return Objects.equal(getPictureIdentifier(), image.getPictureIdentifier()) &&
-                getImageType() == image.getImageType();
+        ImageDto imageDto = (ImageDto) o;
+        return Objects.equal(getPictureIdentifier(), imageDto.getPictureIdentifier()) &&
+                getImageType() == imageDto.getImageType();
     }
 
     @Override

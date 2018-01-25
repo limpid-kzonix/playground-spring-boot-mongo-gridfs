@@ -28,7 +28,7 @@ spring:
       reactive-repositories:
         enabled: true
       database: omnie-image-storage
-      grid-fs-database: omnie-fs
+      grid-fs-database: omnie-commerce-images-fs
   http:
     multipart:
       max-file-size: 10MB

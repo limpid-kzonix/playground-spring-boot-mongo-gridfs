@@ -91,7 +91,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
     }
 
     private BufferedImage compress(BufferedImage original) throws IOException {
-        log.info("Compress image ::: Image to compress =  {}", original.toString());
+        log.info("Compress image ::: ImageDto to compress =  {}", original.toString());
         ByteArrayOutputStream compressed = new ByteArrayOutputStream();
         ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
 

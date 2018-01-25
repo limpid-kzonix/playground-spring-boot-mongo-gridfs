@@ -1,6 +1,6 @@
 package com.omniesoft.commerce.imagestorage;
 
-import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.extern.slf4j.Slf4j;
@@ -30,10 +30,10 @@ public class OmnieCommerceImageStorageApplicationTests {
     @Test
     public void getImage() {
 
-        Image image = imageStorageService
+        ImageDto imageDto = imageStorageService
                 .fetchImageByIdAndType("4hXMGCw9Iv4jvSZzHySUUvBzT34zQzcvwboGfyUN", ImageType.MEDIUM);
-        log.info(image.getContentType());
-        Assert.assertEquals("image type not compatible", "image/png", image.getContentType());
+        log.info(imageDto.getContentType());
+        Assert.assertEquals("imageDto type not compatible", "imageDto/png", imageDto.getContentType());
     }
 }
 

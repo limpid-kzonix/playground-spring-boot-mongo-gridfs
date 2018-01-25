@@ -1,8 +1,9 @@
 package com.omniesoft.commerce.imagestorage.models.services.impl;
 
+import com.mongodb.DB;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
-import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
-import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.ImageModuleErrorCodes;
+import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
 import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,16 +35,33 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
     private ImageOperationsService imageOperationsService;
 
+    private final MongoTemplate mongoTemplate;
+
     @Override
-    public String store(MultipartFile file) throws IOException {
+    public String store(MultipartFile file) {
 
-        BufferedImage read = ImageIO.read(file.getInputStream());
-
+        BufferedImage read = getBufferedImage(file);
+        DB db = mongoTemplate.getDb();
+        if (!db.command("{ getLastError: 1 }").ok()) {
+            throw new UsefulException();
+        }
         String generated = randomStringGenerator.generate(40);
+        try {
+            prepareAndSave(file, read, generated).get();
+            return generated;
+        } catch (Exception e) {
+            throw new UsefulException();
+        }
 
-        prepareAndSave(file, read, generated);
-        return generated;
 
+    }
+
+    private BufferedImage getBufferedImage(MultipartFile file) {
+        try {
+            return ImageIO.read(file.getInputStream());
+        } catch (IOException e) {
+            throw new UsefulException();
+        }
     }
 
 
@@ -64,7 +83,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
                         .storeSource(imageOperationsService.prepareMedium(read), generated, file
                                 .getContentType(), ImageType.MEDIUM);
             } catch (IOException e) {
-                throw new UsefulException(InternalErrorCodes.IMAGE_PROCESSING_ERROR);
+                throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         });
 
@@ -79,7 +98,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
                         .storeSource(imageOperationsService.prepareSmall(read), generated, file
                                 .getContentType(), ImageType.SMALL);
             } catch (IOException e) {
-                throw new UsefulException(InternalErrorCodes.IMAGE_PROCESSING_ERROR);
+                throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         });
 
@@ -94,7 +113,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
                         .storeSource(imageOperationsService.prepareLarge(read), generated, file
                                 .getContentType(), ImageType.LARGE);
             } catch (IOException e) {
-                throw new UsefulException(InternalErrorCodes.IMAGE_PROCESSING_ERROR);
+                throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         });
 
@@ -109,7 +128,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
                         .storeSource(imageOperationsService.prepareOriginal(read), generated, file
                                 .getContentType(), ImageType.ORIGINAL);
             } catch (IOException e) {
-                throw new UsefulException(InternalErrorCodes.IMAGE_PROCESSING_ERROR);
+                throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         });
 
@@ -117,9 +136,10 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
     @Override
     @Cacheable(value="pictures", key = "{ #root.methodName, #imageId, #type }")
-    public Image fetchImageByIdAndType(String imageId, ImageType type) {
+    public ImageDto fetchImageByIdAndType(String imageId, ImageType type) {
         log.info(" Loading images with image-id {} and image-type {}", imageId, type);
-        return picturesRepository.fetchPicturesSource(imageId, type);
+        ImageDto imageDto = picturesRepository.fetchPicturesSource(imageId, type);
+        return imageDto;
     }
 
     @Async("mongoExecutionWritableContext")
@@ -128,6 +148,4 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
         picturesRepository.deleteImage(imageId);
     }
-
-
 }

@@ -1,18 +1,16 @@
 package com.omniesoft.commerce.imagestorage.controllers;
 
 import com.omniesoft.commerce.common.responce.ResponseMessage;
-import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
@@ -23,13 +21,7 @@ public class PictureOperationsController {
     @PostMapping(path = "/upload")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseMessage uploadImage(@RequestParam("file") MultipartFile file) {
-
-        try {
-            return new ResponseMessage(service.store(file));
-        } catch (IOException e) {
-            throw new RuntimeException();
-        }
-
+        return new ResponseMessage(service.store(file));
     }
 
     @DeleteMapping(path = "/delete")
@@ -41,16 +33,20 @@ public class PictureOperationsController {
     }
 
     @GetMapping(path = "/fetch")
-    public ResponseEntity<InputStreamResource> fetchImage(@RequestParam("image_identifier") String imageId,
-                                                          @RequestParam("image_type") ImageType type) {
+    public ResponseEntity<byte[]> fetchImage(@RequestParam("image_identifier") String imageId,
+                                             @RequestParam("image_type") ImageType type) {
 
-        Image image = service.fetchImageByIdAndType(imageId, type);
+        ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, image.getContentType());
+        headers.set(HttpHeaders.CONTENT_TYPE, imageDto.getContentType());
 
-        return new ResponseEntity<>(new InputStreamResource(image.getStream()), headers,
-                HttpStatus.OK);
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(imageDto.getContentType()))
+                .headers(headers)
+                .contentLength(imageDto.getStream().length)
+                .body(imageDto.getStream());
     }
+
 
 }

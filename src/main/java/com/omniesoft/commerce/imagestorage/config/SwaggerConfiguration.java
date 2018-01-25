@@ -66,7 +66,7 @@ public class SwaggerConfiguration {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Omnie Image Microservice")
+                .title("Omnie ImageDto Microservice")
                 .version("1.0")
                 .build();
     }

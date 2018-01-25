@@ -3,8 +3,9 @@ package com.omniesoft.commerce.imagestorage.models.repositories.impl;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSFile;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.ImageModuleErrorCodes;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
-import com.omniesoft.commerce.imagestorage.models.dto.Image;
+import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
@@ -14,11 +15,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -30,16 +31,33 @@ public class PicturesRepositoryImpl implements PicturesRepository {
 
 
     @Override
-    public Image fetchPicturesSource(String picturesIdentifier, ImageType type) {
+    public ImageDto fetchPicturesSource(String picturesIdentifier, ImageType type) {
 
-        List<GridFSDBFile> files = gridFsTemplate
-                .find(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
-                        .is(type.name())));
-        if (files.isEmpty()) {
-            throw new UsefulException("Image with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
+        GridFSDBFile file = getGridFSDBFile(picturesIdentifier, type);
+        if (file == null && file.getInputStream() == null) {
+            throw new UsefulException("ImageDto with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
         }
-        GridFSDBFile gridFSDBFile = files.get(0);
-        return new Image(picturesIdentifier, type, gridFSDBFile.getInputStream(), gridFSDBFile.getContentType());
+
+        return getImageDto(picturesIdentifier, type, file);
+
+
+    }
+
+    private GridFSDBFile getGridFSDBFile(String picturesIdentifier, ImageType type) {
+        return gridFsTemplate
+                .findOne(new Query(Criteria.where("filename").is(picturesIdentifier).and("metadata.imageSizeType")
+                        .is(type.name())));
+    }
+
+    private ImageDto getImageDto(String picturesIdentifier, ImageType type, GridFSDBFile file) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            file.writeTo(baos);
+            byte[] bytes = baos.toByteArray();
+            return new ImageDto(picturesIdentifier, type, bytes, file.getContentType());
+        } catch (IOException e) {
+            throw new UsefulException("Cant read image from storage", ImageModuleErrorCodes.CAN_NOT_FETCH_IMAGE_FROM_DB);
+        }
     }
 
     @Override
