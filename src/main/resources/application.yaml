@@ -4,8 +4,8 @@
 # [ Server Configuration Attributes ]
 #
 server:
- port: 9011
- contextPath: /api/image
+ port: 9110
+ contextPath: /api
 
 
 
@@ -14,6 +14,8 @@ server:
 # [ Spring Database Configuration]
 #
 spring:
+  application:
+    name: omnie-imagestorage
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
   output:
@@ -21,14 +23,13 @@ spring:
       enabled: always
   data:
     mongodb:
-      port: 27017
-      host: localhost
       repositories:
         enabled: true
       reactive-repositories:
         enabled: true
       database: omnie-image-storage
       grid-fs-database: omnie-commerce-images-fs
+      uri: mongodb://localhost:27017
   http:
     multipart:
       max-file-size: 10MB
@@ -69,12 +70,12 @@ security:
     client:
       clientId: web-client
       clientSecret: secret
-      accessTokenUri: http://localhost:9005/omnie-security/oauth/check_token
-      userAuthorizationUri: http://localhost:9005/omnie-security/oauth/authorize
+      accessTokenUri: http://localhost:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://localhost:9999/omnie-security/api/oauth/authorize
     resource:
       filter-order: 3
       jwt:
-        keyUri: http://localhost:9005/omnie-security/oauth/token_key
+        keyUri: http://localhost:9999/omnie-security/api/oauth/token_key
 
 #
 # [ Logging Configuration Attributes ]
@@ -95,6 +96,25 @@ logging:
     jdbc.resultset: warn
     jdbc.sqltiming: warn
 
+
+#
+# [ Eureka]
+#
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
+    healthcheck:
+      enabled: true
+# Custom
+service:
+  discovery:
+    host: localhost
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+
 ---
 ###
 ### Profile: dev
@@ -103,8 +123,7 @@ spring:
     profiles: dev
     data:
       mongodb:
-       port: 27018
-       host: mongodb
+        uri: mongodb://mongo:27017
 
 #
 # [ Security Configuration Attributes ]
@@ -114,12 +133,12 @@ security:
     client:
       clientId: web-client
       clientSecret: secret
-      accessTokenUri: http://omnie-security:9005/omnie-security/oauth/check_token
-      userAuthorizationUri: http://omnie-security:9005/omnie-security/oauth/authorize
+      accessTokenUri: http://omnie-gateway:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://omnie-gateway:9999/omnie-security/api/oauth/authorize
     resource:
       filter-order: 3
       jwt:
-        keyUri: http://omnie-security:9005/omnie-security/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 
 #
@@ -128,4 +147,17 @@ security:
 
 logging:
   config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
 
